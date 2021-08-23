@@ -1,15 +1,13 @@
 package com.example.contactsdatabase
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.text.TextUtils
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.NavArgs
 import androidx.navigation.fragment.NavHostFragment
 import com.example.contactsdatabase.ProjectDatabase.User
 import com.example.contactsdatabase.ProjectDatabase.UserViewModel
@@ -38,6 +36,8 @@ class UpdateFragment : Fragment() {
             insertDataToDatabase()
         }
 
+        setHasOptionsMenu(true)
+
         return binding.root
     }
 
@@ -59,5 +59,31 @@ class UpdateFragment : Fragment() {
 
     private fun inputCheck(firstName: String,lastName: String,age: String) : Boolean {
         return !(TextUtils.isEmpty(firstName) || TextUtils.isEmpty(lastName) || TextUtils.isEmpty(age))
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.delete_manu,menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if(item.itemId == R.id.deleteButton){
+            deleteTheUser()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun deleteTheUser() {
+        var builder = AlertDialog.Builder(requireContext())
+        builder.setPositiveButton("Yes"){_,_->
+            mViewModel.deleteUser(args.currentUser)
+            Toast.makeText(requireContext(),"User successfully deleted!!!",Toast.LENGTH_SHORT).show()
+            NavHostFragment.findNavController(this).navigate(UpdateFragmentDirections.actionUpdateFragmentToListFragment())
+        }
+        builder.setNegativeButton("No"){_,_->}
+
+        builder.setTitle("Delete ${args.currentUser.firstName}")
+        builder.setMessage("Are you sure you want to delete ${args.currentUser.firstName}?")
+        builder.create().show()
     }
 }

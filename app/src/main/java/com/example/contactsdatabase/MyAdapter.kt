@@ -14,7 +14,7 @@ class MyAdapter() : RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
     private var userList = emptyList<User>()
 
     class MyViewHolder(itemView : View) :RecyclerView.ViewHolder(itemView) {
-        val idtv = itemView.findViewById<TextView>(R.id.indexTV)
+
         val fntv = itemView.findViewById<TextView>(R.id.firstNameTV)
         val lntv = itemView.findViewById<TextView>(R.id.lastNameTV)
         val agtv = itemView.findViewById<TextView>(R.id.ageTV)
@@ -25,7 +25,7 @@ class MyAdapter() : RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.idtv.text = userList[position].id.toString()
+
         holder.fntv.text = userList[position].firstName
         holder.lntv.text = userList[position].lastName
         holder.agtv.text = userList[position].age
