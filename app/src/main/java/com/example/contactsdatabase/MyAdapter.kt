@@ -4,6 +4,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.RecyclerView
 import com.example.contactsdatabase.ProjectDatabase.User
 
@@ -27,6 +29,10 @@ class MyAdapter() : RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
         holder.fntv.text = userList[position].firstName
         holder.lntv.text = userList[position].lastName
         holder.agtv.text = userList[position].age
+
+        holder.itemView.setOnClickListener {
+            it.findNavController().navigate(ListFragmentDirections.actionListFragmentToUpdateFragment(userList[position]))
+        }
     }
 
     override fun getItemCount(): Int {
